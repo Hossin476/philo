@@ -12,7 +12,7 @@ void	ft_usleep(int ms)
 	long long	tm;
 	tm = get_time();
 	while (get_time() - tm <= ms)
-		usleep(200);
+		usleep(100);
 }
 
 void ft_printf(t_philo *philo, char *str)

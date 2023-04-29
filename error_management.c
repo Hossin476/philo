@@ -74,13 +74,3 @@ void check_error(int argc, char **argv)
         }
     }
 }
-
-void check_data(t_philo *philo)
-{
-    if (philo->info->num_of_philos == 1 || philo->info->time_to_die == 0
-     || philo->info->time_to_eat == 0 || philo->info->time_to_sleep == 0)
-    {
-        printf("Error\n");
-        free(philo);
-    }
-}

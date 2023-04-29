@@ -1,10 +1,10 @@
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror
+# CFLAGS	= -Wall -Wextra -Werror
 
 NAME	= philo
 
-SOURCE = main.c	method.c	philo_utils.c	error_management.c routine.c
+SOURCE = main.c	 method.c	philo_utils.c	error_management.c  routine.c
 
 all:	
 	${CC} ${CFLAGS} -pthread -o ${NAME} ${SOURCE}
@@ -20,3 +20,5 @@ clean:
 fclean: clean
 
 re: fclean all
+
+.PHONY: all clean fclean 
