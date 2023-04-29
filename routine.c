@@ -3,7 +3,7 @@
 void philo_sleeping(t_philo *philo)
 {
     ft_printf(philo, "is sleeping\n");
-    usleep(philo->info->time_to_sleep * 1000);
+    ft_usleep(philo->info->time_to_sleep * 1000);
 }
 
 void philo_eating(t_philo *philo)
@@ -13,7 +13,7 @@ void philo_eating(t_philo *philo)
     pthread_mutex_lock(philo->next_fork);
     ft_printf(philo, "has taken a fork\n");
     ft_printf(philo, "is eating\n");
-    usleep(philo->info->time_to_eat * 1000);
+    ft_usleep(philo->info->time_to_eat * 1000);
     pthread_mutex_unlock(philo->fork_mutex);
     pthread_mutex_unlock(philo->next_fork);
     pthread_mutex_lock(&philo->info->meal_mutex);

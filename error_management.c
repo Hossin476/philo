@@ -56,21 +56,24 @@ void check_error(int argc, char **argv)
 
     if (argc < 5 || argc > 6)
     {
-        printf("Error\n");
+        printf("Error: Invalid number of arguments\n");
+        return;
     }
     i = 0;
-    while (++i < argc)
+    while (++i <= argc)
     {
         j = -1;
         while (argv[i][++j] != '\0')
-            if (argv[i][j] > 57 || argv[i][j] < 48)
+            if (argv[i][j] > '9' || argv[i][j] < '0')
             {
-                printf("Error\n");
+                printf("Error: Arguments must be integers\n");
+                return;
             }
         temp = ft_atoi(argv[i]);
         if (temp < 1)
         {
-            printf("Error\n");
+            printf("Error: Arguments must be positive integers non null\n");
+            return;
         }
     }
 }

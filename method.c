@@ -21,26 +21,31 @@ void start_data(t_data *data, char **av, int ac)
 t_philo **philo_init(t_data *data, pthread_mutex_t **forks)
 {
     t_philo **philo;
+    int i;
     pthread_mutex_t *fork;
 
     fork = *forks;
+    i = 0;
     philo = malloc(sizeof(t_philo *) * data->num_of_philos);
     if (!philo)
         return (NULL);
-    int i = 0;
     while (i < data->num_of_philos)
     {
         philo[i] = malloc(sizeof(t_philo));
-        if (!philo[i])
+        if (!philo[i]) {
             free_alloc(philo, i);
+            return (NULL);
+        }
         philo[i]->info = data;
         philo[i]->id = i + 1;
         philo[i]->fork_mutex = &fork[i];
-        philo[i]->next_fork = &(fork[i + 1 % data->num_of_philos]);
+        philo[i]->next_fork = &(fork[(i + 1) % data->num_of_philos]);
         i++;
     }
+
     return (philo);
 }
+
 
 void mutex_init(pthread_mutex_t *forks, t_data *data)
 {
@@ -81,17 +86,17 @@ int check_meal(t_philo **philo)
     int token;
 
     i = 0;
-    token = 0;
+    token = 1;
     if (philo[0]->info->max_meals != -1)
     {
         while (i < philo[0]->info->num_of_philos)
         {
             if (philo[i]->nbr_of_meals < philo[0]->info->max_meals)
-                token = 1;
+                token = 0;
             i++;
         }
     }
-    if  (!token)
+    if  (token)
         return (1);
     return (0);
 }

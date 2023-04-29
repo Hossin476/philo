@@ -7,6 +7,7 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include <string.h>
+#include <limits.h>
 
 typedef struct s_data
 {
