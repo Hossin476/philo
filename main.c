@@ -1,11 +1,13 @@
 #include "philosophers.h"
 
+
+
 int main(int ac, char **av)
 {
 
     t_data *data;
     pthread_mutex_t **forks;
-    t_philo *philo;
+    t_philo **philo;
 
     check_error(ac, av);
     data = malloc(sizeof(t_data));
@@ -17,5 +19,6 @@ int main(int ac, char **av)
     start_data(data, av, ac);
     philo = philo_init(data, forks);
     mutex_init(forks, data);
+    thread_monitoring(philo);
     return 0;
 }
