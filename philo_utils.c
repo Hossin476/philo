@@ -9,17 +9,17 @@ long long	get_time(void)
 
 void	ft_usleep(int ms)
 {
-	int	tm;
+	long long	tm;
 	tm = get_time();
-	while (get_time() - tm < ms)
-		usleep(100);
+	while (get_time() - tm <= ms)
+		usleep(200);
 }
 
 void ft_printf(t_philo *philo, char *str)
 {
-    pthread_mutex_lock(philo->info->print_mutex);
+    pthread_mutex_lock(&philo->info->print_mutex);
     printf("%llu %d %s", get_time() - philo->info->start_time, philo->id, str);
-    pthread_mutex_unlock(philo->info->print_mutex);
+    pthread_mutex_unlock(&philo->info->print_mutex);
 }
 
 void free_alloc(t_philo **philo, int number)

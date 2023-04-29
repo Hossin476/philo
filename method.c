@@ -14,8 +14,8 @@ void start_data(t_data *data, char **av, int ac)
     else
         data->max_meals = -1;
     data->start_time = get_time();
-    pthread_mutex_init(data->meal_mutex, NULL);
-    pthread_mutex_init(data->print_mutex, NULL);
+    pthread_mutex_init(&data->meal_mutex, NULL);
+    pthread_mutex_init(&data->print_mutex, NULL);
 }
 
 t_philo **philo_init(t_data *data, pthread_mutex_t **forks)
@@ -28,7 +28,7 @@ t_philo **philo_init(t_data *data, pthread_mutex_t **forks)
     if (!philo)
         return (NULL);
     int i = 0;
-    check_data(*philo);
+    // check_data(*philo);
     while (i < data->num_of_philos)
     {
         philo[i] = malloc(sizeof(t_philo));
@@ -43,15 +43,14 @@ t_philo **philo_init(t_data *data, pthread_mutex_t **forks)
     return (philo);
 }
 
-void mutex_init(pthread_mutex_t **forks, t_data *data)
+void mutex_init(pthread_mutex_t *forks, t_data *data)
 {
     int i;
     i = 0;
 
     while (i < data->num_of_philos)
     {
-        pthread_mutex_init(forks[i], NULL);
-        i++;
+        pthread_mutex_init(&forks[i++], NULL);
     }
 }
 
@@ -63,22 +62,63 @@ void thread_monitoring(t_philo **philo)
     while (++i < philo[0]->info->num_of_philos)
     {
         philo[i]->lst_time_eat = get_time();
-        pthread_create(&philo[i]->th, NULL, &philo_life, philo[i]);
     }
     i = -1;
     while (++i < philo[0]->info->num_of_philos)
-        pthread_detach(philo[i]->th);
-    // check_death(ph);
-}
+    {
+        pthread_create(&philo[i]->th, NULL, &philo_life, philo[i]);
+    }
 
+    i = -1;
+    while (++i < philo[0]->info->num_of_philos)
+        pthread_detach(philo[i]->th);
+    death_checking(philo);
+}
 
 void death_checking(t_philo **philo)
 {
     int i;
-    i = -1; 
-
-    while (++i < philo[0]->info->num_of_philos){
-
+    i = 0;
+    t_data *data = philo[0]->info;
+    pthread_mutex_lock(&data->meal_mutex);
+    while (1)
+    {
+        if (i == data->num_of_philos)
+            i = 0;
+        if (get_time() - philo[i]->lst_time_eat > (unsigned long long)data->time_to_die)
+        {
+            pthread_mutex_lock(&data->print_mutex);
+            printf("%llu %d %s", get_time() - philo[i]->info->start_time, philo[i]->id, "died\n");
+            return;
+        }
+        if (check_meal(philo) && data->max_meals != -1)
+        {
+            pthread_mutex_lock(&data->print_mutex);
+            return;
+        }
+        i++;
     }
+    pthread_mutex_unlock(&data->meal_mutex);
+}
 
+int check_meal(t_philo **philo)
+{
+
+    int i;
+    int token;
+
+    i = 0;
+    token = 0;
+    if (philo[0]->info->max_meals != -1)
+    {
+        while (i < philo[0]->info->num_of_philos)
+        {
+            if (philo[i]->nbr_of_meals > philo[0]->info->max_meals)
+                token = 1;
+            i++;
+        }
+    }
+    if  (!token)
+        return (1);
+    return (0);
 }

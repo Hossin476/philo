@@ -57,7 +57,6 @@ void check_error(int argc, char **argv)
     if (argc < 5 || argc > 6)
     {
         printf("Error\n");
-        return (0);
     }
     i = 0;
     while (++i < argc)
@@ -67,13 +66,11 @@ void check_error(int argc, char **argv)
             if (argv[i][j] > 57 || argv[i][j] < 48)
             {
                 printf("Error\n");
-                return (0);
             }
         temp = ft_atoi(argv[i]);
         if (temp < 1)
         {
             printf("Error\n");
-            return (0);
         }
     }
 }
@@ -85,6 +82,5 @@ void check_data(t_philo *philo)
     {
         printf("Error\n");
         free(philo);
-        return(0);
     }
 }

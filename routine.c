@@ -17,10 +17,10 @@ void philo_eating(t_philo *philo)
     ft_usleep(philo->info->time_to_eat);
     pthread_mutex_unlock(philo->fork_mutex);
     pthread_mutex_unlock(philo->next_fork);
-    pthread_mutex_lock(philo->info->meal_mutex);
+    pthread_mutex_lock(&philo->info->meal_mutex);
     philo->lst_time_eat = get_time();
     philo->nbr_of_meals++;
-    pthread_mutex_unlock(philo->info->meal_mutex);
+    pthread_mutex_unlock(&philo->info->meal_mutex);
 }
 
 void *philo_life(void *philo)
