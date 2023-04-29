@@ -4,7 +4,7 @@ CFLAGS	= -Wall -Wextra -Werror
 
 NAME	= philo
 
-SOURCE = main.c	method.c	philo_utils.c	error_management.c\
+SOURCE = main.c	method.c	philo_utils.c	error_management.c 
 
 all:	
 	${CC} ${CFLAGS} -pthread -o ${NAME} ${SOURCE}

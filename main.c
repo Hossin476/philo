@@ -4,12 +4,18 @@ int main(int ac, char **av)
 {
 
     t_data *data;
+    pthread_mutex_t **forks;
+    t_philo *philo;
 
-// printf("%lld\n", get_time());
     check_error(ac, av);
     data = malloc(sizeof(t_data));
-    start(data, av, ac);
-    philo_thinking(data->philo[0]);
-    // philo_sleeping(data->philo[0]);
+    if (!data)
+        exit(0);
+    forks = malloc(sizeof(pthread_mutex_t));
+    if (!forks)
+        return(free(data), 1);
+    start_data(data, av, ac);
+    philo = philo_init(data, forks);
+    mutex_init(forks, data);
     return 0;
 }
