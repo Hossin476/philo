@@ -70,7 +70,7 @@ void	death_checking(t_philo **philo)
 		{
 			pthread_mutex_lock(&data->print_mutex);
 			printf("%llu %d %s", get_time()
-				- philo[i]->info->start_time, philo[i]->id, "died\n");
+				- philo[i]->info->start_time, philo[i]->id, "\e[31m died\n");
 			return ;
 		}
 		if (check_meal(philo) && data->max_meals != -1)

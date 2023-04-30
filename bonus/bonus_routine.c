@@ -28,7 +28,7 @@ void *philo_life(void *philo)
 
     ph = philo;
     if (ph->id % 2)
-        ft_usleep(200);
+        usleep(200);
     while (1)
     {
         philo_eating(ph);
@@ -36,4 +36,17 @@ void *philo_life(void *philo)
         ft_printf(ph, "is thinking\n");
     }
     return;
+}
+
+void mutex_init(sem_t **forks, t_data *data)
+{
+    int i;
+
+    i = 0;
+    while (i < data->num_of_philos)
+    {
+        sem_unlink(ft_itoa(i));
+        forks[i] = sem_open(ft_itoa(i), O_CREAT | O_EXCL, 0644, 1);
+        i++;
+    }
 }

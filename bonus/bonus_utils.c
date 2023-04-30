@@ -66,3 +66,51 @@ int ft_strlen(const char *s)
         i++;
     return (i);
 }
+
+
+static int	num_length(long nb)
+{
+	int	l;
+
+	l = 0;
+	if (nb == 0)
+		l++;
+	else if (nb < 0)
+	{
+		nb = -nb;
+		l++;
+	}
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		l++;
+	}
+	return (l);
+}
+
+char	*ft_itoa(int n)
+{
+	long	nb;
+	char	*ptr;
+	int		i;
+
+	nb = n;
+	i = num_length(nb);
+	ptr = (char *)malloc ((num_length(nb) + 1));
+	if (!ptr)
+		return (NULL);
+	ptr[i--] = '\0';
+	if (nb == 0)
+		ptr[0] = '0';
+	if (nb < 0)
+	{
+		ptr[0] = '-';
+		nb = -nb;
+	}
+	while (nb > 0)
+	{
+		ptr[i--] = (nb % 10) + '0';
+		nb = nb / 10;
+	}
+	return (ptr);
+}
