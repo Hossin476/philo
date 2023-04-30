@@ -29,10 +29,48 @@ int ft_strlen(const char *s)
     return (i);
 }
 
+void	ft_putnbr(long long n)
+{
+	char	c;
+
+	if (n >= 10)
+		ft_putnbr(n / 10);
+	c = '0' + n % 10;
+	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	while (*str)
+		write(1, str++, 1);
+}
+
+void	ft_print_time(t_philo *philo)
+{
+	long long	time;
+	char		s[20];
+	int			i;
+
+	time = get_time() - philo->info->start_time;
+	i = 0;
+	while (time > 0)
+	{
+		s[i++] = (time % 10) + '0';
+		time /= 10;
+	}
+	while (i < 10)
+		s[i++] = ' ';
+	s[i] = '\0';
+	ft_putstr(s);
+}
+
 void	ft_printf(t_philo *philo, char *str)
 {
 	sem_wait(&philo->info->print_semaphore);
-	printf("%llu %d %s", get_time() - philo->info->start_time, philo->id, str);
-	fflush(stdout);
+	ft_print_time(philo);
+	write(1, " ", 1);
+	ft_putnbr(philo->id);
+	write(1, " ", 1);
+	ft_putstr(str);
 	sem_post(&philo->info->print_semaphore);
 }
