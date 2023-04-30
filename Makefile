@@ -1,11 +1,22 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lshail <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/04/30 15:22:43 by lshail            #+#    #+#              #
+#    Updated: 2023/04/30 15:22:52 by lshail           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror
+# CFLAGS	= -Wall -Wextra -Werror
 
 NAME	= philo
-NAME_BONUS = philo_bonus
+
 SOURCE = main.c	 method.c	philo_utils.c	error_management.c  routine.c
-BONUS   = main_bonus.c method_bonus.c philo_utils_bonus.c error_management_bonus.c routine_bonus.c
 
 all:	
 	${CC} ${CFLAGS} -pthread -o ${NAME} ${SOURCE}
@@ -13,8 +24,7 @@ all:
 %.o : %.c philosophers.h
 	$(CC) $(FLAGS) -c $< -o $@
 
-bonus:
-	$(CC) $(CFLAGS) -pthread -o $(NAME_BONUS) $(BONUS)
+bonus: all
 
 clean:
 	rm -f ${NAME}

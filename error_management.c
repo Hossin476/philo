@@ -1,79 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_management.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/30 14:52:37 by lshail            #+#    #+#             */
+/*   Updated: 2023/04/30 15:20:40 by lshail           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
-long check_range(long num, long sign)
+long	check_range(long num, long sign)
 {
-    if (num > 2147483647 || num < -2147483648)
-    {
-        printf("Error\n");
-        return (0);
-    }
-    else
-        return (num * sign);
+	if (num > 2147483647 || num < -2147483648)
+	{
+		printf("Error\n");
+		return (0);
+	}
+	else
+		return (num * sign);
 }
 
-long ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
-    long i;
-    long sign;
-    long num;
+	long	i;
+	long	sign;
+	long	num;
 
-    i = 0;
-    sign = 1;
-    num = 0;
-    if (str[i] == '\0')
-        return (i);
-    while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-        i++;
-    if (str[i] == '-' || str[i] == '+')
-    {
-        if (str[i] == '-')
-            sign *= -1;
-        i++;
-    }
-    while (str[i] && str[i] >= '0' && str[i] <= '9')
-    {
-        num = num * 10 + (str[i] - 48);
-        i++;
-    }
-    return check_range(num, sign);
+	i = 0;
+	sign = 1;
+	num = 0;
+	if (str[i] == '\0')
+		return (i);
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	{
+		num = num * 10 + (str[i] - 48);
+		i++;
+	}
+	return (check_range(num, sign));
 }
 
-int ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (s[i] != '\0')
-        i++;
-    return (i);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
 
-void check_error(int argc, char **argv)
+int	check_error(int argc, char **argv)
 {
-    int i;
-    int j;
-    int temp;
+	int	i;
+	int	j;
+	int	temp;
 
-    if (argc < 5 || argc > 6)
-    {
-        printf("Error: Invalid number of arguments\n");
-        return;
-    }
-    i = 0;
-    while (++i <= argc)
-    {
-        j = -1;
-        while (argv[i][++j] != '\0')
-            if (argv[i][j] > '9' || argv[i][j] < '0')
-            {
-                printf("Error: Arguments must be integers\n");
-                return;
-            }
-        temp = ft_atoi(argv[i]);
-        if (temp < 1)
-        {
-            printf("Error: Arguments must be positive integers non null\n");
-            return;
-        }
-    }
+	i = 0;
+	if (argc < 5 || argc > 6)
+	{
+		printf("Error: Invalid number of arguments\n");
+		return (0);
+	}
+	while (++i < argc)
+	{
+		j = -1;
+		while (argv[i][++j] != '\0')
+		{
+			if (argv[i][j] > '9' || argv[i][j] < '0')
+			{
+				printf("Error: Arguments must be integers\n");
+				return (0);
+			}
+		}
+		temp = ft_atoi(argv[i]);
+		if (temp < 1)
+		{
+			printf("Error: Arguments must be positive integers non null\n");
+			return (0);
+		}
+	}
+	return (1);
 }
