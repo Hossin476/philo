@@ -22,31 +22,65 @@ void philo_eating(t_philo *philo)
     sem_post(philo->print_sem);
 }
 
-void *philo_life(void *philo)
+void	philo_life(t_philo *philo)
 {
-    t_philo *ph;
-
-    ph = philo;
-    if (ph->id % 2)
-        usleep(200);
-    while (1)
-    {
-        philo_eating(ph);
-        philo_sleeping(ph);
-        ft_printf(ph, "is thinking\n");
-    }
-    return;
+	while (1)
+	{
+		sem_wait(philo->fork_semaphore);
+		ft_printf(philo, "has taken a fork\n");
+		sem_wait(philo->next_fork_semaphore);
+		ft_printf(philo, "has taken a fork\n");
+		ft_printf(philo, "is eating\n");
+		ft_usleep(philo->info->time_to_eat);
+		sem_post(philo->fork_semaphore);
+		sem_post(philo->next_fork_semaphore);
+		if (philo->info->max_meals != -1)
+			philo->nbr_of_meals++;
+		ft_printf(philo, "is sleeping\n");
+		ft_usleep(philo->info->time_to_sleep);
+		ft_printf(philo, "is thinking\n");
+		if (philo->info->death_flag)
+			exit(0);
+	}
 }
 
-void mutex_init(sem_t **forks, t_data *data)
+
+void	mutex_init(sem_t **forks, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->num_of_philos)
+	{
+		sem_init(&forks[i++], 0, 1);
+	}
+}
+
+
+void thread_monitoring(t_philo **philo)
 {
     int i;
+    pid_t pid;
 
-    i = 0;
-    while (i < data->num_of_philos)
+    i = -1;
+    while (++i < philo[0]->info->num_of_philos)
+        philo[i]->lst_time_eat = get_time();
+    i = -1;
+    while (++i < philo[0]->info->num_of_philos)
     {
-        sem_unlink(ft_itoa(i));
-        forks[i] = sem_open(ft_itoa(i), O_CREAT | O_EXCL, 0644, 1);
+        pid = fork();
+        if (pid == -1)
+            exit(EXIT_FAILURE);
+        if (pid == 0)
+            philo_life(philo[i]);
+        else
+            philo[i]->pid = pid;
+    }
+    death_checking(philo);
+    i = 0;
+    while (i < philo[0]->info->num_of_philos)
+    {
+        kill(philo[i]->pid, SIGKILL);
         i++;
     }
 }

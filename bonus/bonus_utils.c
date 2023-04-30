@@ -19,44 +19,6 @@ void ft_usleep(int ms)
         usleep(100);
 }
 
-void ft_putstr_fd(char *s, int fd)
-{
-    if (!s)
-        return;
-    write(fd, s, strlen(s));
-}
-
-void ft_putnbr_fd(int n, int fd)
-{
-    char c;
-
-    if (n == -2147483648)
-    {
-        ft_putstr_fd("-2147483648", fd);
-        return;
-    }
-    if (n < 0)
-    {
-        write(fd, "-", 1);
-        n = -n;
-    }
-    if (n >= 10)
-    {
-        ft_putnbr_fd(n / 10, fd);
-        ft_putnbr_fd(n % 10, fd);
-    }
-    else
-    {
-        c = n + '0';
-        write(fd, &c, 1);
-    }
-}
-
-void ft_putchar_fd(char c, int fd)
-{
-    write(fd, &c, 1);
-}
-
 int ft_strlen(const char *s)
 {
     int i;
@@ -67,50 +29,10 @@ int ft_strlen(const char *s)
     return (i);
 }
 
-
-static int	num_length(long nb)
+void	ft_printf(t_philo *philo, char *str)
 {
-	int	l;
-
-	l = 0;
-	if (nb == 0)
-		l++;
-	else if (nb < 0)
-	{
-		nb = -nb;
-		l++;
-	}
-	while (nb > 0)
-	{
-		nb = nb / 10;
-		l++;
-	}
-	return (l);
-}
-
-char	*ft_itoa(int n)
-{
-	long	nb;
-	char	*ptr;
-	int		i;
-
-	nb = n;
-	i = num_length(nb);
-	ptr = (char *)malloc ((num_length(nb) + 1));
-	if (!ptr)
-		return (NULL);
-	ptr[i--] = '\0';
-	if (nb == 0)
-		ptr[0] = '0';
-	if (nb < 0)
-	{
-		ptr[0] = '-';
-		nb = -nb;
-	}
-	while (nb > 0)
-	{
-		ptr[i--] = (nb % 10) + '0';
-		nb = nb / 10;
-	}
-	return (ptr);
+	sem_wait(&philo->info->print_semaphore);
+	printf("%llu %d %s", get_time() - philo->info->start_time, philo->id, str);
+	fflush(stdout);
+	sem_post(&philo->info->print_semaphore);
 }
