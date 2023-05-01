@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <semaphore.h>
 
 typedef struct s_data
@@ -35,9 +36,12 @@ typedef struct s_philo
 } t_philo;
 
 long        ft_atoi(const char *str);
-int         check_error(int argc, char **argv);
-long long   get_time(void);
-int	        init_data(t_data *data, char **av);
+int	        check_error(int argc, char **argv);
+int	        ft_strlen(char *s);
+void	    mutex_init(sem_t **forks, t_data *data);
+long	    check_range(long num, long sign);
+long long get_time(void);
+void	    init_data(t_data *data, char **av);
 void        free_alloc(t_philo **philo, int number);
 void        philo_sleeping(t_philo *philo);
 void        philo_eating(t_philo *philo);
@@ -48,9 +52,5 @@ void        ft_printf(t_philo *philo, char *str);
 void        thread_monitoring(t_philo **philo);
 void        death_checking(t_philo **philo);
 int         check_meal(t_philo **philo);
-
-#endif
-
-
 
 #endif

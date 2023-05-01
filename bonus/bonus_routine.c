@@ -8,18 +8,18 @@ void philo_sleeping(t_philo *philo)
 
 void philo_eating(t_philo *philo)
 {
-    sem_wait(philo->fork_sem);
+    sem_wait(philo->fork_semaphore);
     ft_printf(philo, "has taken a fork\n");
-    sem_wait(philo->fork_sem);
+    sem_wait(philo->fork_semaphore);
     ft_printf(philo, "has taken a fork\n");
     ft_printf(philo, "is eating\n");
     ft_usleep(philo->info->time_to_eat);
-    sem_post(philo->fork_sem);
-    sem_post(philo->fork_sem);
-    sem_wait(philo->print_sem);
+    sem_post(philo->fork_semaphore);
+    sem_post(philo->fork_semaphore);
+    sem_wait(philo->info->print_semaphore);
     philo->lst_time_eat = get_time();
     philo->nbr_of_meals++;
-    sem_post(philo->print_sem);
+    sem_post(philo->info->print_semaphore);
 }
 
 void	philo_life(t_philo *philo)
@@ -45,15 +45,17 @@ void	philo_life(t_philo *philo)
 }
 
 
-void	mutex_init(sem_t **forks, t_data *data)
-{
-	int	i;
+void mutex_init(sem_t **forks, t_data *data) {
+    int i;
 
-	i = 0;
-	while (i < data->num_of_philos)
-	{
-		sem_init(&forks[i++], 0, 1);
-	}
+    i = 0;
+    while (i < data->num_of_philos) {
+        char fork_name[20];
+        sem_t *fork_sem = sem_open(fork_name, O_CREAT, 0644, 1);
+        if (fork_sem == SEM_FAILED)
+            exit(1);
+        forks[i++] = fork_sem;
+    }
 }
 
 
