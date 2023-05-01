@@ -19,8 +19,7 @@ t_philo **philo_init(t_data *data, sem_t **forks)
         philo[i]->info = data;
         philo[i]->id = i + 1;
         philo[i]->fork_semaphore = &fork[i];
-        philo[i]->next_fork_semaphore = &(fork[i + 1 % data->num_of_philos]);
-        i++;
+		i++;
     }
     return (philo);
 }

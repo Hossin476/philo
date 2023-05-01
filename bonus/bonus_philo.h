@@ -29,7 +29,6 @@ typedef struct s_philo
     pid_t           pid;
     int             id;
     t_data          *info;
-    sem_t           *next_fork_semaphore;
     sem_t           *fork_semaphore;
     unsigned long   lst_time_eat;
     int             nbr_of_meals;

@@ -56,12 +56,12 @@ void init_data(t_data *data, char **av) {
 		data->max_meals = -1;
     data->start_time = get_time();
     data->death_flag = 0;
-    sem_t *print_sem = sem_open("/print_semaphore", O_CREAT, 0644, 1);
-    if (print_sem == SEM_FAILED)
-        exit(1);
-    data->print_semaphore = print_sem;
-    sem_t *meal_sem = sem_open("/meal_semaphore", O_CREAT, 0644, data->num_of_philos);
-    if (meal_sem == SEM_FAILED)
+    sem_unlink("print_semaphore");
+    sem_unlink("meal_semaphore");
+    sem_t *print_sem = sem_open("print_semaphore", O_CREAT, 0644, 1);
+    sem_t *meal_sem = sem_open("meal_semaphore", O_CREAT, 0644, data->num_of_philos);
+    if (meal_sem == SEM_FAILED || print_sem == SEM_FAILED)
         exit(1);
     data->meal_semaphore = meal_sem;
+    data->print_semaphore = print_sem;
 }

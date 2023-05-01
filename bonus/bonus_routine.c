@@ -10,48 +10,38 @@ void philo_eating(t_philo *philo)
 {
     sem_wait(philo->fork_semaphore);
     ft_printf(philo, "has taken a fork\n");
-    sem_wait(philo->fork_semaphore);
-    ft_printf(philo, "has taken a fork\n");
     ft_printf(philo, "is eating\n");
     ft_usleep(philo->info->time_to_eat);
-    sem_post(philo->fork_semaphore);
-    sem_post(philo->fork_semaphore);
-    sem_wait(philo->info->print_semaphore);
+    sem_wait(philo->info->meal_semaphore);
     philo->lst_time_eat = get_time();
     philo->nbr_of_meals++;
-    sem_post(philo->info->print_semaphore);
+    sem_post(philo->info->meal_semaphore);
+    sem_post(philo->fork_semaphore);
 }
 
 void	philo_life(t_philo *philo)
 {
+    t_philo	*ph;
+
+    ph = philo;
+	if (ph->id % 2)
+		usleep(200);
 	while (1)
 	{
-		sem_wait(philo->fork_semaphore);
-		ft_printf(philo, "has taken a fork\n");
-		sem_wait(philo->next_fork_semaphore);
-		ft_printf(philo, "has taken a fork\n");
-		ft_printf(philo, "is eating\n");
-		ft_usleep(philo->info->time_to_eat);
-		sem_post(philo->fork_semaphore);
-		sem_post(philo->next_fork_semaphore);
-		if (philo->info->max_meals != -1)
-			philo->nbr_of_meals++;
-		ft_printf(philo, "is sleeping\n");
-		ft_usleep(philo->info->time_to_sleep);
+        philo_eating(philo);
+        philo_sleeping(philo);
 		ft_printf(philo, "is thinking\n");
 		if (philo->info->death_flag)
 			exit(0);
 	}
 }
 
-
 void mutex_init(sem_t **forks, t_data *data) {
     int i;
 
     i = 0;
     while (i < data->num_of_philos) {
-        char fork_name[20];
-        sem_t *fork_sem = sem_open(fork_name, O_CREAT, 0644, 1);
+        sem_t *fork_sem = sem_open("fork_semaphore", O_CREAT, 0644, 1);
         if (fork_sem == SEM_FAILED)
             exit(1);
         forks[i++] = fork_sem;
