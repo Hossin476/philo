@@ -1,28 +1,6 @@
 #include "bonus_philo.h"
 
-t_philo **philo_init(t_data *data, sem_t **forks)
-{
-    t_philo **philo;
-    sem_t *fork;
-    int i;
 
-    fork = *forks;
-    i = 0;
-    philo = malloc(sizeof(t_philo *) * data->num_of_philos);
-    if (!philo)
-        return (0);
-    while (i < data->num_of_philos)
-    {
-        philo[i] = malloc(sizeof(t_philo));
-        // if (!philo[i])
-        //     free_alloc(philo, i);
-        philo[i]->info = data;
-        philo[i]->id = i + 1;
-        philo[i]->fork_semaphore = &fork[i];
-		i++;
-    }
-    return (philo);
-}
 
 
 long	check_range(long num, long sign)
@@ -104,4 +82,18 @@ int	check_error(int argc, char **argv)
 		}
 	}
 	return (1);
+}
+
+
+void	free_alloc(t_philo **philo, int number)
+{
+	int	i;
+
+	i = 0;
+	while (i < number)
+	{
+		free(philo[i]);
+		i++;
+	}
+	free(philo);
 }

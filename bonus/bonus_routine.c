@@ -41,13 +41,12 @@ void mutex_init(sem_t **forks, t_data *data) {
 
     i = 0;
     while (i < data->num_of_philos) {
-        sem_t *fork_sem = sem_open("fork_semaphore", O_CREAT, 0644, 1);
+        sem_t *fork_sem = sem_open("/fork_semaphore", O_CREAT, 0644, 1);
         if (fork_sem == SEM_FAILED)
             exit(1);
         forks[i++] = fork_sem;
     }
 }
-
 
 void thread_monitoring(t_philo **philo)
 {
@@ -62,7 +61,7 @@ void thread_monitoring(t_philo **philo)
     {
         pid = fork();
         if (pid == -1)
-            exit(EXIT_FAILURE);
+            exit(1);
         if (pid == 0)
             philo_life(philo[i]);
         else

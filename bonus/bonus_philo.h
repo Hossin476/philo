@@ -39,7 +39,7 @@ int	        check_error(int argc, char **argv);
 int	        ft_strlen(char *s);
 void	    mutex_init(sem_t **forks, t_data *data);
 long	    check_range(long num, long sign);
-long long get_time(void);
+long long   get_time(void);
 void	    init_data(t_data *data, char **av);
 void        free_alloc(t_philo **philo, int number);
 void        philo_sleeping(t_philo *philo);
