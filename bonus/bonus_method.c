@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bonus_method.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/02 19:22:24 by lshail            #+#    #+#             */
+/*   Updated: 2023/05/02 19:22:26 by lshail           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bonus_philo.h"
 
 int check_meal(t_philo *philo)
@@ -22,7 +34,6 @@ void death_checking(t_philo *philo)
     while (1)
     {
         usleep(200);
-        sem_wait(philo->info->meal_semaphore);
         if (get_time() - philo->lst_time_eat > (unsigned long long)philo->info->time_to_die && !philo->info->death_flag)
         {
             philo->info->death_flag = 1;
@@ -30,6 +41,7 @@ void death_checking(t_philo *philo)
             printf("%llu %d died", get_time() - philo->info->start_time, philo->id);
             return;
         }
+        sem_wait(philo->info->meal_semaphore);
         if (check_meal(philo) && philo->info->max_meals != -1)
         {
             sem_post(philo->info->meal_semaphore);
