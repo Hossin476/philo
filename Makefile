@@ -15,32 +15,27 @@ CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 
 NAME	= philo
-NAME_BONUS = philo_bonus
 
 SOURCE = main.c	 method.c	philo_utils.c	error_management.c  routine.c
-BONUS   = bonus/main.c bonus/bonus_method.c bonus/bonus_utils.c  \
-bonus/bonus_errors.c bonus/bonus_routine.c
+
 
 OBJA=$(SOURCE:.c=.o)
-OBJB=$(BONUS:.c=.o)
+
 
 all: ${NAME}
-bonus: ${NAME_BONUS}
-${NAME}:${OBJA}
-	${CC} ${CFLAGS} -pthread -o ${NAME} ${SOURCE}
-
-${NAME_BONUS}:${OBJB}
-	$(CC) $(CFLAGS) -pthread -o $(NAME_BONUS) $(BONUS)
 
 %.o : %.c philosophers.h
 	$(CC) $(FLAGS) -c $< -o $@
 
 
+${NAME}:${OBJA}
+	${CC} ${CFLAGS} -pthread -o ${NAME} ${SOURCE}
+
 clean:
-	rm -rf $(OBJA) $(OBJB)
+	rm -rf $(OBJA) 
 
 fclean: clean
-	rm -rf ${NAME} ${NAME_BONUS}
+	rm -rf ${NAME} 
 
 re: fclean all
 
