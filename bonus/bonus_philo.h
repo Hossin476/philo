@@ -51,6 +51,6 @@ void        philo_life(t_philo *philo);
 void        ft_printf(t_philo *philo, char *str);
 void        thread_monitoring(t_philo **philo);
 void        death_checking(t_philo *philo);
-int         check_meal(t_philo **philo);
+int         check_meal(t_philo *philo);
 
 #endif

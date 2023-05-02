@@ -10,6 +10,8 @@ void philo_eating(t_philo *philo)
 {
     sem_wait(philo->info->fork_semaphore);
     ft_printf(philo, "has taken a fork\n");
+    sem_wait(philo->info->fork_semaphore);
+    ft_printf(philo, "has taken a fork\n");
     ft_printf(philo, "is eating\n");
     ft_usleep(philo->info->time_to_eat);
     sem_wait(philo->info->meal_semaphore);
@@ -17,11 +19,14 @@ void philo_eating(t_philo *philo)
     philo->nbr_of_meals++;
     sem_post(philo->info->meal_semaphore);
     sem_post(philo->info->fork_semaphore);
+    sem_post(philo->info->fork_semaphore);
 }
 
 void *routine(void *ph)
 {
-    t_philo* philo = ph;
+    t_philo* philo;
+    
+    philo = ph;
 	if (philo->id % 2)
 		usleep(200);
 	while (1)
@@ -36,19 +41,17 @@ void *routine(void *ph)
 
 void	philo_life(t_philo *philo)
 {
+
     philo->lst_time_eat = get_time();
     pthread_create(&philo->thread, NULL, &routine, philo);
     pthread_detach(philo->thread);
     death_checking(philo);
 }
 
-
-
 void thread_monitoring(t_philo **philo)
 {
     int i;
     pid_t pid;
-
 
     i = -1;
     while (++i < philo[0]->info->num_of_philos)
@@ -65,7 +68,16 @@ void thread_monitoring(t_philo **philo)
             philo[i]->pid = pid;
     }
     i = 0;
-    waitpid(-1, NULL, 0);
+    if(philo[0]->info->max_meals  != -1)
+    {
+        waitpid(-1, NULL, 0);
+        kill(0,SIGINT);
+    }
+    else
+    {
+        while(waitpid(0, NULL, 0)!=-1)
+        ;
+    }
     while (i < philo[0]->info->num_of_philos)
     {
         kill(philo[i]->pid, SIGKILL);
