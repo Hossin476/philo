@@ -21,25 +21,20 @@ int	check_meal(t_philo **philo)
 	return (0);
 }
 
-void death_checking(t_philo **philo)
+void death_checking(t_philo *philo)
 {
-    int i;
 
     while (1)
     {
-        i = 0;
-        while (i < philo[0]->info->num_of_philos)
-        {
-            if (get_time() - philo[i]->lst_time_eat > (unsigned long long)philo[i]->info->time_to_die && !philo[i]->info->death_flag)
+            sem_wait(philo->info->meal_semaphore);
+            if (get_time() - philo->lst_time_eat > (unsigned long long)philo->info->time_to_die && !philo->info->death_flag)
             {
-                philo[i]->info->death_flag = 1;
-                ft_printf(philo[i], "died\n");
+                philo->info->death_flag = 1;
+                sem_wait(philo->info->print_semaphore);
+                printf("%llu %d died\n", get_time() - philo->info->start_time, philo->id);
                 return;
             }
-            i++;
-        }
-        if (check_meal(philo))
-            break;
+            sem_post(philo->info->meal_semaphore);
     }
 }
 
@@ -56,26 +51,20 @@ void init_data(t_data *data, char **av)
 		data->max_meals = -1;
     data->start_time = get_time();
     data->death_flag = 0;
-    sem_unlink("print_semaphore");
-    sem_unlink("meal_semaphore");
-    sem_t *print_sem = sem_open("/print_semaphore", O_CREAT, 0644, 1);
-    sem_t *meal_sem = sem_open("/meal_semaphore", O_CREAT, 0644, data->num_of_philos);
-    if (meal_sem == SEM_FAILED || print_sem == SEM_FAILED)
-        exit(1);
-    data->meal_semaphore = meal_sem;
-    data->print_semaphore = print_sem;
+    sem_unlink("/print_semaphore");
+    sem_unlink("/meal_semaphore");
+    sem_unlink("/fork_semaphore");
+    data->meal_semaphore = sem_open("/meal_semaphore", O_CREAT, 0644, 1);;
+    data->print_semaphore = sem_open("/print_semaphore", O_CREAT, 0644, 1);;
+    data->fork_semaphore = sem_open("/fork_semaphore", O_CREAT, 0644, data->num_of_philos);;
 }
 
-t_philo **philo_init(t_data *data, sem_t **forks)
+t_philo **philo_init(t_data *data)
 {
     t_philo **philo;
-    sem_t *fork;
     int i;
 
-    fork = *forks;
-    (void)fork;
     i = 0;
-    printf("%d\n", data->num_of_philos);
     philo = malloc(sizeof(t_philo *) * data->num_of_philos);
     if (!philo)
         return (0);
@@ -86,7 +75,6 @@ t_philo **philo_init(t_data *data, sem_t **forks)
             free_alloc(philo, i);
         philo[i]->info = data;
         philo[i]->id = i + 1;
-        philo[i]->fork_semaphore = &fork[i];
 		i++;
     }
     return (philo);
