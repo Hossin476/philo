@@ -6,16 +6,16 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:22:00 by lshail            #+#    #+#             */
-/*   Updated: 2023/05/02 19:22:04 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/03 16:00:29 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus_philo.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_data *data;
-	t_philo **philo;
+	t_data	*data;
+	t_philo	**philo;
 
 	if (!check_error(ac, av))
 		return (0);
