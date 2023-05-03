@@ -27,42 +27,25 @@ int	check_meal(t_philo *philo)
 	return (0);
 }
 
-void	death_checking(t_philo *philo)
+void death_checking(t_philo *philo)
 {
-	int	all_philos_full;
-	int	i;
-
-	all_philos_full = 1;
-	i = -1;
-	while (1)
-	{
-		usleep(200);
-		sem_wait(philo->info->meal_semaphore);
-		if (get_time() - philo->lst_time_eat
-			> (unsigned long) philo->info->time_to_die)
-		{
-			sem_wait(philo->info->print_semaphore);
-			printf("%llu %d died", get_time() - philo->info->start_time,
-				philo->id);
-			return ;
-		}
-		if (check_meal(philo) && philo->info->max_meals != -1)
-		{
-			sem_post(philo->info->meal_semaphore);
-			while (++i < philo->info->num_of_philos)
-			{
-				if (philo->nbr_of_meals < philo->info->max_meals)
-				{
-					all_philos_full = 0;
-					break ;
-				}
-			}
-			if (all_philos_full)
-				return ;
-			break ;
-		}
-		sem_post(philo->info->meal_semaphore);
-	}
+    int all_philos_full;
+    
+    while (1)
+    {
+        usleep(200);
+        sem_wait(philo->info->meal_semaphore);
+        check_for_death(philo);
+        if (check_meal(philo) && philo->info->max_meals != -1)
+        {
+            sem_post(philo->info->meal_semaphore);
+            all_philos_full = check_if_all_philos_full(philo);
+            if (all_philos_full)
+                return;
+            break;
+        }
+        sem_post(philo->info->meal_semaphore);
+    }
 }
 
 void	init_data(t_data *data, char **av)
@@ -85,23 +68,3 @@ void	init_data(t_data *data, char **av)
 			O_CREAT, 0644, data->num_of_philos);
 }
 
-t_philo	**philo_init(t_data *data)
-{
-	t_philo	**philo;
-	int		i;
-
-	i = 0;
-	philo = malloc(sizeof(t_philo *) * data->num_of_philos);
-	if (!philo)
-		return (0);
-	while (i < data->num_of_philos)
-	{
-		philo[i] = malloc(sizeof(t_philo));
-		if (!philo[i])
-			free_alloc(philo, i);
-		philo[i]->info = data;
-		philo[i]->id = i + 1;
-		i++;
-	}
-	return (philo);
-}

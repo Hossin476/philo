@@ -52,33 +52,26 @@ void	*philo_life(void *philo)
 	return (0);
 }
 
-void	death_checking(t_philo **philo)
+void check_death(t_philo *philo)
 {
-	int		i;
-	t_data	*data;
-
-	i = 0;
-	data = philo[0]->info;
-	while (1)
-	{
-		usleep(200);
-		pthread_mutex_lock(&data->meal_mutex);
-		if (i == data->num_of_philos)
-			i = 0;
-		if (get_time() - philo[i]->lst_time_eat
-			> (unsigned long long)data->time_to_die)
-		{
-			pthread_mutex_lock(&data->print_mutex);
-			printf("%llu %d %s", get_time()
-				- philo[i]->info->start_time, philo[i]->id, "\e[31m died\n");
-			return ;
-		}
-		if (check_meal(philo) && data->max_meals != -1)
-		{
-			pthread_mutex_lock(&data->print_mutex);
-			return ;
-		}
-		i++;
-		pthread_mutex_unlock(&data->meal_mutex);
-	}
+    t_data *data = philo->info;
+    if (get_time() - philo->lst_time_eat > (unsigned long long)data->time_to_die)
+    {
+        pthread_mutex_lock(&data->print_mutex);
+        printf("%llu %d %s", get_time() - philo->info->start_time, philo->id, "\e[31m died\n");
+        return;
+    }
 }
+
+void check_meals(t_philo **philo)
+{
+    t_data *data = philo[0]->info;
+    if (check_meal(philo) && data->max_meals != -1)
+    {
+        pthread_mutex_lock(&data->print_mutex);
+        return;
+    }
+}
+
+
+

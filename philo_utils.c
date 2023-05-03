@@ -48,3 +48,13 @@ void	free_alloc(t_philo **philo, int number)
 	}
 	free(philo);
 }
+
+int is_integer(char *arg)
+{
+    for (int i = 0; arg[i] != '\0'; i++)
+    {
+        if (arg[i] < '0' || arg[i] > '9')
+            return 0;
+    }
+    return 1;
+}

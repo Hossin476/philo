@@ -50,3 +50,25 @@ void	free_alloc(t_philo **philo, int number)
 	}
 	free(philo);
 }
+
+
+t_philo	**philo_init(t_data *data)
+{
+	t_philo	**philo;
+	int		i;
+
+	i = 0;
+	philo = malloc(sizeof(t_philo *) * data->num_of_philos);
+	if (!philo)
+		return (0);
+	while (i < data->num_of_philos)
+	{
+		philo[i] = malloc(sizeof(t_philo));
+		if (!philo[i])
+			free_alloc(philo, i);
+		philo[i]->info = data;
+		philo[i]->id = i + 1;
+		i++;
+	}
+	return (philo);
+}

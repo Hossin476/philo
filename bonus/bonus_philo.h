@@ -47,8 +47,10 @@ typedef struct s_philo
 }	t_philo;
 
 long		ft_atoi(const char *str);
+void 		check_for_death(t_philo *philo);
 int			check_error(int argc, char **argv);
 int			ft_strlen(char *s);
+int 		check_if_all_philos_full(t_philo *philo);
 long		check_range(long num, long sign);
 long long	get_time(void);
 void		init_data(t_data *data, char **av);
@@ -56,6 +58,8 @@ void		free_alloc(t_philo **philo, int number);
 void		philo_sleeping(t_philo *philo);
 void		philo_eating(t_philo *philo);
 void		ft_usleep(int ms);
+int 		is_valid_argument(char *arg);
+int 		check_positive_integers(int argc, char **argv);
 t_philo		**philo_init(t_data *data);
 void		philo_life(t_philo *philo);
 void		ft_printf(t_philo *philo, char *str);

@@ -99,3 +99,19 @@ int	check_meal(t_philo **philo)
 		return (1);
 	return (0);
 }
+
+void death_checking(t_philo **philo)
+{
+    int i = 0;
+    while (1)
+    {
+        usleep(200);
+        pthread_mutex_lock(&philo[0]->info->meal_mutex);
+        if (i == philo[0]->info->num_of_philos)
+            i = 0;
+        check_death(philo[i]);
+        check_meals(philo);
+        i++;
+        pthread_mutex_unlock(&philo[0]->info->meal_mutex);
+    }
+}

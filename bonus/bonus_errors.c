@@ -60,35 +60,39 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-int	check_error(int argc, char **argv)
-{
-	int	i;
-	int	j;
-	int	temp;
 
-	i = 0;
-	if (argc < 5 || argc > 6)
-	{
-		printf("Error: Invalid number of arguments\n");
-		return (0);
-	}
-	while (++i < argc)
-	{
-		j = -1;
-		while (argv[i][++j] != '\0')
-		{
-			if (argv[i][j] > '9' || argv[i][j] < '0')
-			{
-				printf("Error: Arguments must be integers\n");
-				return (0);
-			}
-		}
-		temp = ft_atoi(argv[i]);
-		if (temp < 1)
-		{
-			printf("Error: Arguments must be positive integers non null\n");
-			return (0);
-		}
-	}
-	return (1);
+
+
+int check_positive_integers(int argc, char **argv)
+{
+    int i;
+	int temp;
+
+i = 1;
+    while ( i < argc)
+    {
+        if (!is_valid_argument(argv[i]))
+        {
+            printf("Error: Arguments must be integers\n");
+            return 0;
+        }
+        temp = ft_atoi(argv[i]);
+        if (temp < 1)
+        {
+            printf("Error: Arguments must be positive integers non null\n");
+            return 0;
+        }
+		i++;
+    }
+    return 1;
+}
+
+int check_error(int argc, char **argv)
+{
+    if (argc < 5 || argc > 6)
+    {
+        printf("Error: Invalid number of arguments\n");
+        return 0;
+    }
+    return check_positive_integers(argc, argv);
 }
