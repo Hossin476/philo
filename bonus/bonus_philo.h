@@ -35,7 +35,6 @@ typedef struct s_data
     sem_t           *meal_semaphore;
     sem_t           *fork_semaphore;
     unsigned long   start_time;
-    int             death_flag;
 } t_data;
 
 typedef struct s_philo

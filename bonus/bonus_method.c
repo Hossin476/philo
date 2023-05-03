@@ -20,7 +20,7 @@ int check_meal(t_philo *philo)
     token = 0;
     if (philo->info->max_meals != -1)
     {
-        if (philo->nbr_of_meals < philo->info->max_meals)
+        if (philo->nbr_of_meals < philo->info->max_meals + 1)
             token = 1;
     }
     if (!token)
@@ -30,26 +30,41 @@ int check_meal(t_philo *philo)
 
 void death_checking(t_philo *philo)
 {
-
+    int all_philos_full;
+    int i;
+    
+    all_philos_full = 1;
+    i = -1;
     while (1)
     {
         usleep(200);
-        if (get_time() - philo->lst_time_eat > (unsigned long long)philo->info->time_to_die && !philo->info->death_flag)
+        sem_wait(philo->info->meal_semaphore);
+        if (get_time() - philo->lst_time_eat > (unsigned long) philo->info->time_to_die)
         {
-            philo->info->death_flag = 1;
             sem_wait(philo->info->print_semaphore);
             printf("%llu %d died", get_time() - philo->info->start_time, philo->id);
             return;
         }
-        sem_wait(philo->info->meal_semaphore);
         if (check_meal(philo) && philo->info->max_meals != -1)
         {
             sem_post(philo->info->meal_semaphore);
-            break ;
+            while (++i < philo->info->num_of_philos)
+            {
+                if (philo->nbr_of_meals < philo->info->max_meals)
+                {
+                    all_philos_full = 0;
+                    break;
+                }
+            }
+            if (all_philos_full)
+                return;
+            break;
         }
         sem_post(philo->info->meal_semaphore);
     }
 }
+
+
 
 void init_data(t_data *data, char **av)
 {
@@ -63,7 +78,6 @@ void init_data(t_data *data, char **av)
     else
         data->max_meals = -1;
     data->start_time = get_time();
-    data->death_flag = 0;
     sem_unlink("/print_semaphore");
     sem_unlink("/meal_semaphore");
     sem_unlink("/fork_semaphore");

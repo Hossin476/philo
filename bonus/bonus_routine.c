@@ -46,9 +46,7 @@ void *routine(void *ph)
         philo_eating(philo);
         philo_sleeping(philo);
 		ft_printf(philo, "is thinking\n");
-		if (philo->info->death_flag)
-			exit(0);
-	}
+	}   
 }
 
 void	philo_life(t_philo *philo)
@@ -80,19 +78,6 @@ void thread_monitoring(t_philo **philo)
             philo[i]->pid = pid;
     }
     i = 0;
-    if(philo[0]->info->max_meals  != -1)
-    {
-        waitpid(-1, NULL, 0);
-        kill(0,SIGINT);
-    }
-    else
-    {
-        while(waitpid(0, NULL, 0)!=-1)
-        ;
-    }
-    while (i < philo[0]->info->num_of_philos)
-    {
-        kill(philo[i]->pid, SIGKILL);
-        i++;
-    }
+    waitpid(-1, NULL, 0);
+    kill(0,SIGINT);
 }

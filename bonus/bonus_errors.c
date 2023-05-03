@@ -92,17 +92,3 @@ int	check_error(int argc, char **argv)
 	}
 	return (1);
 }
-
-
-void	free_alloc(t_philo **philo, int number)
-{
-	int	i;
-
-	i = 0;
-	while (i < number)
-	{
-		free(philo[i]);
-		i++;
-	}
-	free(philo);
-}

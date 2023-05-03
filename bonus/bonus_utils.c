@@ -37,3 +37,16 @@ void	ft_printf(t_philo *philo, char *str)
 	printf("%lld %d %s", get_time() - philo->info->start_time, philo->id, str);
 	sem_post(philo->info->print_semaphore);
 }
+
+void	free_alloc(t_philo **philo, int number)
+{
+	int	i;
+
+	i = 0;
+	while (i < number)
+	{
+		free(philo[i]);
+		i++;
+	}
+	free(philo);
+}
