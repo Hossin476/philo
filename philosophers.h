@@ -49,7 +49,6 @@ long long	get_time(void);
 int 		check_positive_nonnull(int num);
 int 		is_integer(char *arg);
 void 		check_death(t_philo *philo);
-int			check_meal(t_philo **philo);
 void		start_data(t_data *data, char **av, int ac);
 void		free_alloc(t_philo **philo, int number);
 void		philo_sleeping(t_philo *philo);

@@ -12,7 +12,7 @@
 
 #include "philosophers.h"
 
-void	start_data(t_data *data, char **av, int ac)
+void start_data(t_data *data, char **av, int ac)
 {
 	data->num_of_philos = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
@@ -27,11 +27,11 @@ void	start_data(t_data *data, char **av, int ac)
 	pthread_mutex_init(&data->print_mutex, NULL);
 }
 
-t_philo	**philo_init(t_data *data, pthread_mutex_t **forks)
+t_philo **philo_init(t_data *data, pthread_mutex_t **forks)
 {
-	t_philo			**philo;
-	pthread_mutex_t	*fork;
-	int				i;
+	t_philo **philo;
+	pthread_mutex_t *fork;
+	int i;
 
 	fork = *forks;
 	i = 0;
@@ -52,9 +52,9 @@ t_philo	**philo_init(t_data *data, pthread_mutex_t **forks)
 	return (philo);
 }
 
-void	mutex_init(pthread_mutex_t *forks, t_data *data)
+void mutex_init(pthread_mutex_t *forks, t_data *data)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < data->num_of_philos)
@@ -63,9 +63,9 @@ void	mutex_init(pthread_mutex_t *forks, t_data *data)
 	}
 }
 
-void	thread_monitoring(t_philo **philo)
+void thread_monitoring(t_philo **philo)
 {
-	int	i;
+	int i;
 
 	i = -1;
 	while (++i < philo[0]->info->num_of_philos)
@@ -79,39 +79,27 @@ void	thread_monitoring(t_philo **philo)
 	death_checking(philo);
 }
 
-int	check_meal(t_philo **philo)
-{
-	int	i;
-	int	token;
-
-	i = 0;
-	token = 0;
-	if (philo[0]->info->max_meals != -1)
-	{
-		while (i < philo[0]->info->num_of_philos)
-		{
-			if (philo[i]->nbr_of_meals < philo[0]->info->max_meals)
-				token = 1;
-			i++;
-		}
-	}
-	if (!token)
-		return (1);
-	return (0);
-}
 
 void death_checking(t_philo **philo)
 {
-    int i = 0;
-    while (1)
-    {
-        usleep(200);
-        pthread_mutex_lock(&philo[0]->info->meal_mutex);
-        if (i == philo[0]->info->num_of_philos)
-            i = 0;
-        check_death(philo[i]);
-        check_meals(philo);
-        i++;
-        pthread_mutex_unlock(&philo[0]->info->meal_mutex);
-    }
+		t_data	*data;
+		int i;
+
+	data = philo[0]->info;
+	i = 0;
+	while (1)
+	{
+		usleep(200);
+		pthread_mutex_lock(&philo[0]->info->meal_mutex);
+		if (i == philo[0]->info->num_of_philos)
+			i = 0;
+		check_death(philo[i]);
+		if (check_meal(philo) && data->max_meals != -1)
+		{
+			pthread_mutex_lock(&data->print_mutex);
+			return;
+		}
+		i++;
+		pthread_mutex_unlock(&philo[0]->info->meal_mutex);
+	}
 }

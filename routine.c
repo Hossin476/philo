@@ -52,26 +52,34 @@ void	*philo_life(void *philo)
 	return (0);
 }
 
+int check_meal(t_philo **philo)
+{
+	int i;
+	int token;
+
+	i = 0;
+	token = 0;
+	if (philo[0]->info->max_meals != -1)
+	{
+		while (i < philo[0]->info->num_of_philos)
+		{
+			if (philo[i]->nbr_of_meals < philo[0]->info->max_meals)
+				token = 1;
+			i++;
+		}
+	}
+	if (!token)
+		return (1);
+	return (0);
+}
+
 void check_death(t_philo *philo)
 {
-    t_data *data = philo->info;
-    if (get_time() - philo->lst_time_eat > (unsigned long long)data->time_to_die)
-    {
-        pthread_mutex_lock(&data->print_mutex);
-        printf("%llu %d %s", get_time() - philo->info->start_time, philo->id, "\e[31m died\n");
-        return;
-    }
+	t_data *data = philo->info;
+	if (get_time() - philo->lst_time_eat > (unsigned long long)data->time_to_die)
+	{
+		pthread_mutex_lock(&data->print_mutex);
+		printf("%llu %d %s", get_time() - philo->info->start_time, philo->id, "\e[31m died\n");
+		return;
+	}
 }
-
-void check_meals(t_philo **philo)
-{
-    t_data *data = philo[0]->info;
-    if (check_meal(philo) && data->max_meals != -1)
-    {
-        pthread_mutex_lock(&data->print_mutex);
-        return;
-    }
-}
-
-
-
