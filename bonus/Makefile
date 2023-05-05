@@ -19,7 +19,7 @@ CFLAGS	= -Wall -Wextra -Werror
 NAME = philo_bonus
 
 
-BONUS   = main.c bonus_method.c bonus_utils.c bonus_errors.c bonus_routine.c bonus_extra_utils.c
+BONUS   = main.c bonus_method.c bonus_utils.c bonus_errors.c bonus_routine.c
 
 OBJB=$(BONUS:.c=.o)
 

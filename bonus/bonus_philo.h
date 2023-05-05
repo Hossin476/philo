@@ -47,7 +47,6 @@ typedef struct s_philo
 }	t_philo;
 
 long		ft_atoi(const char *str);
-void 		check_for_death(t_philo *philo);
 int			check_error(int argc, char **argv);
 int			ft_strlen(char *s);
 int 		check_if_all_philos_full(t_philo *philo);

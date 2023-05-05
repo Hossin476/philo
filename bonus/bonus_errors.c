@@ -61,8 +61,6 @@ int	ft_strlen(char *s)
 }
 
 
-
-
 int check_positive_integers(int argc, char **argv)
 {
     int i;

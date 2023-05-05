@@ -12,6 +12,18 @@
 
 #include "bonus_philo.h"
 
+int is_valid_argument(char *arg)
+{
+    int i = 0;
+    while (arg[i] != '\0')
+    {
+        if (arg[i] < '0' || arg[i] > '9')
+            return 0;
+        i++;
+    }
+    return 1;
+}
+
 int	main(int ac, char **av)
 {
 	t_data	*data;
