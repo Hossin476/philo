@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:10:29 by lshail            #+#    #+#             */
-/*   Updated: 2023/04/30 15:22:23 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:21:10 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ typedef struct s_philo
 long		ft_atoi(const char *str);
 int			check_error(int argc, char **argv);
 long long	get_time(void);
-int 		check_positive_nonnull(int num);
-int 		is_integer(char *arg);
-void 		check_death(t_philo *philo);
+int			check_positive_nonnull(int num);
+int			is_integer(char *arg);
+void		check_death(t_philo *philo);
 void		start_data(t_data *data, char **av, int ac);
 void		free_alloc(t_philo **philo, int number);
 void		philo_sleeping(t_philo *philo);

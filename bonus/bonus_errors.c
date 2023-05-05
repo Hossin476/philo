@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:22:12 by lshail            #+#    #+#             */
-/*   Updated: 2023/05/03 15:49:22 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:34:28 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,37 +60,36 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-
-int check_positive_integers(int argc, char **argv)
+int	check_positive_integers(int argc, char **argv)
 {
-    int i;
-	int temp;
+	int	i;
+	int	temp;
 
-i = 1;
-    while ( i < argc)
-    {
-        if (!is_valid_argument(argv[i]))
-        {
-            printf("Error: Arguments must be integers\n");
-            return 0;
-        }
-        temp = ft_atoi(argv[i]);
-        if (temp < 1)
-        {
-            printf("Error: Arguments must be positive integers non null\n");
-            return 0;
-        }
+	i = 1;
+	while (i < argc)
+	{
+		if (!is_valid_argument(argv[i]))
+		{
+			printf("Error: Arguments must be integers\n");
+			return (0);
+		}
+		temp = ft_atoi(argv[i]);
+		if (temp < 1)
+		{
+			printf("Error: Arguments must be positive integers non null\n");
+			return (0);
+		}
 		i++;
-    }
-    return 1;
+	}
+	return (1);
 }
 
-int check_error(int argc, char **argv)
+int	check_error(int argc, char **argv)
 {
-    if (argc < 5 || argc > 6)
-    {
-        printf("Error: Invalid number of arguments\n");
-        return 0;
-    }
-    return check_positive_integers(argc, argv);
+	if (argc < 5 || argc > 6)
+	{
+		printf("Error: Invalid number of arguments\n");
+		return (0);
+	}
+	return (check_positive_integers(argc, argv));
 }

@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:22:51 by lshail            #+#    #+#             */
-/*   Updated: 2023/05/03 15:59:46 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:35:42 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	free_alloc(t_philo **philo, int number)
 	}
 	free(philo);
 }
-
 
 t_philo	**philo_init(t_data *data)
 {

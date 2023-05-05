@@ -6,22 +6,24 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 19:22:00 by lshail            #+#    #+#             */
-/*   Updated: 2023/05/03 16:00:29 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:35:58 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus_philo.h"
 
-int is_valid_argument(char *arg)
+int	is_valid_argument(char *arg)
 {
-    int i = 0;
-    while (arg[i] != '\0')
-    {
-        if (arg[i] < '0' || arg[i] > '9')
-            return 0;
-        i++;
-    }
-    return 1;
+	int	i;
+
+	i = 0;
+	while (arg[i] != '\0')
+	{
+		if (arg[i] < '0' || arg[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	main(int ac, char **av)

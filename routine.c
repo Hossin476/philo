@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:05:41 by lshail            #+#    #+#             */
-/*   Updated: 2023/04/30 15:17:26 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:25:29 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	*philo_life(void *philo)
 	return (0);
 }
 
-int check_meal(t_philo **philo)
+int	check_meal(t_philo **philo)
 {
-	int i;
-	int token;
+	int	i;
+	int	token;
 
 	i = 0;
 	token = 0;
@@ -73,13 +73,17 @@ int check_meal(t_philo **philo)
 	return (0);
 }
 
-void check_death(t_philo *philo)
+void	check_death(t_philo *philo)
 {
-	t_data *data = philo->info;
-	if (get_time() - philo->lst_time_eat > (unsigned long long)data->time_to_die)
+	t_data	*data;
+
+	data = philo->info;
+	if (get_time() - philo->lst_time_eat
+		> (unsigned long long)data->time_to_die)
 	{
 		pthread_mutex_lock(&data->print_mutex);
-		printf("%llu %d %s", get_time() - philo->info->start_time, philo->id, "\e[31m died\n");
-		return;
+		printf("%llu %d %s", get_time() - philo->info->start_time,
+			philo->id, "\e[31m died\n");
+		return ;
 	}
 }

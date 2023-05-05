@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:04:02 by lshail            #+#    #+#             */
-/*   Updated: 2023/04/30 15:05:30 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:24:37 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,16 @@ void	free_alloc(t_philo **philo, int number)
 	free(philo);
 }
 
-int is_integer(char *arg)
+int	is_integer(char *arg)
 {
-    for (int i = 0; arg[i] != '\0'; i++)
-    {
-        if (arg[i] < '0' || arg[i] > '9')
-            return 0;
-    }
-    return 1;
+	int	i;
+
+	i = 0;
+	while (arg[i] != '\0')
+	{
+		if (arg[i] < '0' || arg[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
 }

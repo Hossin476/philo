@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 14:52:37 by lshail            #+#    #+#             */
-/*   Updated: 2023/04/30 15:20:40 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:25:05 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,38 +60,38 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-
-int check_positive_nonnull(int num)
+int	check_positive_nonnull(int num)
 {
-    if (num < 1)
-    {
-        printf("Error: Arguments must be positive integers non null\n");
-        return 0;
-    }
-    return 1;
+	if (num < 1)
+	{
+		printf("Error: Arguments must be positive integers non null\n");
+		return (0);
+	}
+	return (1);
 }
 
 int	check_error(int argc, char **argv)
 {
-	int i;
+	int	i;
+	int	temp;
 
 	i = 1;
-    if (argc < 5 || argc > 6)
-    {
-        printf("Error: Invalid number of arguments\n");
-        return 0;
-    }
-    while ( i < argc)
-    {
-        if (!is_integer(argv[i]))
-        {
-            printf("Error: Arguments must be integers\n");
-            return 0;
-        }
-        int temp = ft_atoi(argv[i]);
-        if (!check_positive_nonnull(temp))
-            return (0);
+	if (argc < 5 || argc > 6)
+	{
+		printf("Error: Invalid number of arguments\n");
+		return (0);
+	}
+	while (i < argc)
+	{
+		if (!is_integer(argv[i]))
+		{
+			printf("Error: Arguments must be integers\n");
+			return (0);
+		}
+		temp = ft_atoi(argv[i]);
+		if (!check_positive_nonnull(temp))
+			return (0);
 		i++;
-    }
-    return (1);
+	}
+	return (1);
 }

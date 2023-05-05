@@ -6,13 +6,13 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 14:59:16 by lshail            #+#    #+#             */
-/*   Updated: 2023/04/30 15:18:19 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:24:06 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void start_data(t_data *data, char **av, int ac)
+void	start_data(t_data *data, char **av, int ac)
 {
 	data->num_of_philos = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
@@ -27,11 +27,11 @@ void start_data(t_data *data, char **av, int ac)
 	pthread_mutex_init(&data->print_mutex, NULL);
 }
 
-t_philo **philo_init(t_data *data, pthread_mutex_t **forks)
+t_philo	**philo_init(t_data *data, pthread_mutex_t **forks)
 {
-	t_philo **philo;
-	pthread_mutex_t *fork;
-	int i;
+	t_philo			**philo;
+	pthread_mutex_t	*fork;
+	int				i;
 
 	fork = *forks;
 	i = 0;
@@ -52,9 +52,9 @@ t_philo **philo_init(t_data *data, pthread_mutex_t **forks)
 	return (philo);
 }
 
-void mutex_init(pthread_mutex_t *forks, t_data *data)
+void	mutex_init(pthread_mutex_t *forks, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->num_of_philos)
@@ -63,9 +63,9 @@ void mutex_init(pthread_mutex_t *forks, t_data *data)
 	}
 }
 
-void thread_monitoring(t_philo **philo)
+void	thread_monitoring(t_philo **philo)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < philo[0]->info->num_of_philos)
@@ -79,11 +79,10 @@ void thread_monitoring(t_philo **philo)
 	death_checking(philo);
 }
 
-
-void death_checking(t_philo **philo)
+void	death_checking(t_philo **philo)
 {
-		t_data	*data;
-		int i;
+	t_data	*data;
+	int		i;
 
 	data = philo[0]->info;
 	i = 0;
@@ -97,7 +96,7 @@ void death_checking(t_philo **philo)
 		if (check_meal(philo) && data->max_meals != -1)
 		{
 			pthread_mutex_lock(&data->print_mutex);
-			return;
+			return ;
 		}
 		i++;
 		pthread_mutex_unlock(&philo[0]->info->meal_mutex);
