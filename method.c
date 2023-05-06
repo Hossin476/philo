@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 14:59:16 by lshail            #+#    #+#             */
-/*   Updated: 2023/05/05 16:24:06 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:08:06 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	death_checking(t_philo **philo)
 {
 	t_data	*data;
 	int		i;
-	int 	j;
+	int		j;
 
 	data = philo[0]->info;
 	i = 0;
@@ -100,7 +100,7 @@ void	death_checking(t_philo **philo)
 			return ;
 		}
 		if (j == 1)
-			break;
+			break ;
 		i++;
 		pthread_mutex_unlock(&philo[0]->info->meal_mutex);
 	}

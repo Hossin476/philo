@@ -6,7 +6,7 @@
 /*   By: lshail <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:05:41 by lshail            #+#    #+#             */
-/*   Updated: 2023/05/05 16:25:29 by lshail           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:08:34 by lshail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	check_death(t_philo *philo)
 		pthread_mutex_lock(&data->print_mutex);
 		printf("%llu %d %s", get_time() - philo->info->start_time,
 			philo->id, "\e[31m died\n");
-		return(1);
+		return (1);
 	}
 	return (0);
 }
