@@ -83,6 +83,7 @@ void	death_checking(t_philo **philo)
 {
 	t_data	*data;
 	int		i;
+	int 	j;
 
 	data = philo[0]->info;
 	i = 0;
@@ -92,12 +93,14 @@ void	death_checking(t_philo **philo)
 		pthread_mutex_lock(&philo[0]->info->meal_mutex);
 		if (i == philo[0]->info->num_of_philos)
 			i = 0;
-		check_death(philo[i]);
+		j = check_death(philo[i]);
 		if (check_meal(philo) && data->max_meals != -1)
 		{
 			pthread_mutex_lock(&data->print_mutex);
 			return ;
 		}
+		if (j == 1)
+			break;
 		i++;
 		pthread_mutex_unlock(&philo[0]->info->meal_mutex);
 	}

@@ -73,7 +73,7 @@ int	check_meal(t_philo **philo)
 	return (0);
 }
 
-void	check_death(t_philo *philo)
+int	check_death(t_philo *philo)
 {
 	t_data	*data;
 
@@ -84,6 +84,7 @@ void	check_death(t_philo *philo)
 		pthread_mutex_lock(&data->print_mutex);
 		printf("%llu %d %s", get_time() - philo->info->start_time,
 			philo->id, "\e[31m died\n");
-		return ;
+		return(1);
 	}
+	return (0);
 }
