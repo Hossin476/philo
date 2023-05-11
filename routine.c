@@ -37,9 +37,7 @@ void	philo_eating(t_philo *philo)
 void	*philo_life(void *philo)
 {
 	t_philo	*ph;
-	int		i;
 
-	i = -1;
 	ph = philo;
 	if (ph->id % 2)
 		usleep(200);

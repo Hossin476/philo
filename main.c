@@ -32,8 +32,5 @@ int	main(int ac, char **av)
 		return (free(forks), free(data), 1);
 	mutex_init(forks, data);
 	thread_monitoring(philo);
-	free(data);
-	free(forks);
-	free_alloc(philo, data->num_of_philos);
 	return (0);
 }
