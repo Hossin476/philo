@@ -33,7 +33,7 @@ void	ft_usleep(int ms)
 
 void	ft_printf(t_philo *philo, char *str)
 {
-	sem_wait(philo->pr);
+	sem_wait(philo->info->print_semaphore);
 	printf("%lld %d %s", get_time() - philo->info->start_time, philo->id, str);
 	sem_post(philo->info->print_semaphore);
 }

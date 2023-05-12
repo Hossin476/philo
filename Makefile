@@ -12,7 +12,7 @@
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=leak
+CFLAGS	= -Wall -Wextra -Werror 
 
 NAME	= philo
 

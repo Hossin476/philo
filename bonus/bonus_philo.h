@@ -32,6 +32,7 @@ typedef struct s_data
 	int				max_meals;
 	sem_t			*meal_semaphore;
 	sem_t			*fork_semaphore;
+	sem_t			*print_semaphore;
 	unsigned long	start_time;
 }	t_data;
 
@@ -43,7 +44,6 @@ typedef struct s_philo
 	pthread_t		thread;
 	unsigned long	lst_time_eat;
 	int				nbr_of_meals;
-	sem_t			print_semaphore;
 }	t_philo;
 
 long		ft_atoi(const char *str);

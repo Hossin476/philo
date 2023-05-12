@@ -13,7 +13,7 @@
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS	= -Wall -Wextra -Werror
 
 
 NAME = philo_bonus
