@@ -81,7 +81,7 @@ int	check_death(t_philo *philo)
 	{
 		pthread_mutex_lock(&data->print_mutex);
 		printf("%llu %d %s", get_time() - philo->info->start_time,
-			philo->id, "\e[31m died\n");
+			philo->id, "\033[31;1mDied \033[0m \n");
 		return (1);
 	}
 	return (0);
