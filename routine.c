@@ -40,7 +40,7 @@ void	*philo_life(void *philo)
 
 	ph = philo;
 	if (ph->id % 2)
-		usleep(200);
+		usleep(500);
 	while (1)
 	{
 		philo_eating(ph);
