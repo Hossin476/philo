@@ -60,6 +60,7 @@ void	philo_life(t_philo *philo)
 void	thread_monitoring(t_philo **philo)
 {
 	int		i;
+	int		status;
 	pid_t	pid;
 
 	i = -1;
@@ -76,6 +77,11 @@ void	thread_monitoring(t_philo **philo)
 		else
 			philo[i]->pid = pid;
 	}
-	waitpid(-1, NULL, 0);
-	kill(0, SIGINT);
+	i = -1;
+	while(++i < philo[0]->info->num_of_philos)
+	{
+		waitpid(0,&status,0);
+		if(status)
+			kill(0,SIGINT);
+	}
 }

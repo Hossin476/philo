@@ -19,7 +19,7 @@ int	check_meal(t_philo *philo)
 	token = 0;
 	if (philo->info->max_meals != -1)
 	{
-		if (philo->nbr_of_meals < philo->info->max_meals + 1)
+		if (philo->nbr_of_meals < philo->info->max_meals)
 			token = 1;
 	}
 	if (!token)
@@ -47,28 +47,28 @@ void	init_data(t_data *data, char **av)
 			O_CREAT, 0644, data->num_of_philos);
 }
 
-int	check_if_all_philos_full(t_philo *philo)
-{
-	int	all_philos_full;
-	int	i;
+// int	check_if_all_philos_full(t_philo *philo)
+// {
+// 	int	all_philos_full;
+// 	int	i;
 
-	i = 0;
-	all_philos_full = 1;
-	while (i < philo->info->num_of_philos)
-	{
-		if (philo->nbr_of_meals < philo->info->max_meals)
-		{
-			all_philos_full = 0;
-			break ;
-		}
-		i++;
-	}
-	return (all_philos_full);
-}
+// 	i = 0;
+// 	all_philos_full = 1;
+// 	while (i < philo->info->num_of_philos)
+// 	{
+// 		if (philo->nbr_of_meals < philo->info->max_meals)
+// 		{
+// 			all_philos_full = 0;
+// 			break ;
+// 		}
+// 		i++;
+// 	}
+// 	return (all_philos_full);
+// }
 
 void	death_checking(t_philo *philo)
 {
-	int	all_philos_full;
+	//int	all_philos_full;
 
 	while (1)
 	{
@@ -80,15 +80,15 @@ void	death_checking(t_philo *philo)
 			sem_wait(philo->info->print_semaphore);
 			printf("%llu %d died", get_time() - philo->info->start_time,
 				philo->id);
-			return ;
+			exit(1);
 		}
 		if (check_meal(philo) && philo->info->max_meals != -1)
 		{
 			sem_post(philo->info->meal_semaphore);
-			all_philos_full = check_if_all_philos_full(philo);
-			if (all_philos_full)
-				return ;
-			break ;
+			// all_philos_full = check_if_all_philos_full(philo);
+			// if (all_philos_full)
+				// return ;
+			exit(0);
 		}
 		sem_post(philo->info->meal_semaphore);
 	}
