@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lshail <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: lshail <lshail@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 15:22:43 by lshail            #+#    #+#              #
-#    Updated: 2023/04/30 15:22:52 by lshail           ###   ########.fr        #
+#    Updated: 2023/06/23 18:35:19 by lshail           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror
 
 NAME	= philo
 
