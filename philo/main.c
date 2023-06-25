@@ -12,6 +12,20 @@
 
 #include "philosophers.h"
 
+void	destroy_mutexes(t_data *data, t_philo **philo)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->meal_mutex);
+	while (i < data->num_of_philos)
+	{
+		pthread_mutex_destroy(&philo[0]->fork_mutex[i]);
+		i++;
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_data			*data;
@@ -32,5 +46,7 @@ int	main(int ac, char **av)
 		return (free(forks), free(data), 1);
 	mutex_init(forks, data);
 	thread_monitoring(philo);
+	free_alloc(philo, data->num_of_philos);
+	destroy_mutexes(data, philo);
 	return (0);
 }
