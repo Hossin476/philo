@@ -44,6 +44,7 @@ typedef struct s_philo
 }	t_philo;
 
 long		ft_atoi(const char *str);
+void		destroy_mutexes(t_data *data, t_philo **philo);
 int			check_error(int argc, char **argv);
 long long	get_time(void);
 int			check_positive_nonnull(int num);
